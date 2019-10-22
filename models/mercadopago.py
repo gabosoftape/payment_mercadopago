@@ -91,6 +91,7 @@ class AcquirerMercadopago(models.Model):
     mercadopago_api_password = fields.Char('Rest API Password')
     mercadopago_api_access_token = fields.Char('Access Token')
     mercadopago_api_access_token_validity = fields.Datetime('Access Token Validity')
+    environment = fields.Char('Entorno', default="prod")
 
 
     _defaults = {
@@ -228,10 +229,12 @@ class AcquirerMercadopago(models.Model):
         jsondump = ""
 
         if MPago:
-            #if acquirer.environment == "prod":
-            MPago.sandbox_mode(False)
-            #else:
-            #    MPago.sandbox_mode(True)
+
+            if acquirer.environment=="prod":
+                MPago.sandbox_mode(False)
+            else:
+                MPago.sandbox_mode(True)
+
             MPagoToken = MPago.get_access_token()
 
             #mpago = https://api.mercadolibre.com/categories/MLA371926/shipping
@@ -333,10 +336,10 @@ class AcquirerMercadopago(models.Model):
                 raise ValidationError(error_msg)
 
 
-            #if acquirer.environment=="prod":
-            linkpay = preferenceResult['response']['init_point']
-            #else:
-            #    linkpay = preferenceResult['response']['sandbox_init_point']
+            if acquirer.environment=="prod":
+                linkpay = preferenceResult['response']['init_point']
+            else:
+                linkpay = preferenceResult['response']['sandbox_init_point']
 
             jsondump = json.dumps( preferenceResult, indent=2 )
 
