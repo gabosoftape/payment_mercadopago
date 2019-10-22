@@ -333,10 +333,10 @@ class AcquirerMercadopago(models.Model):
                 raise ValidationError(error_msg)
 
 
-            if acquirer.environment=="prod":
-                linkpay = preferenceResult['response']['init_point']
-            else:
-                linkpay = preferenceResult['response']['sandbox_init_point']
+            #if acquirer.environment=="prod":
+            linkpay = preferenceResult['response']['init_point']
+            #else:
+            #    linkpay = preferenceResult['response']['sandbox_init_point']
 
             jsondump = json.dumps( preferenceResult, indent=2 )
 
