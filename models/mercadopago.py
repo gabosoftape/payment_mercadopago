@@ -228,10 +228,10 @@ class AcquirerMercadopago(models.Model):
         jsondump = ""
 
         if MPago:
-            if acquirer.environment=="prod":
-                MPago.sandbox_mode(False)
-            else:
-                MPago.sandbox_mode(True)
+            #if acquirer.environment == "prod":
+            MPago.sandbox_mode(False)
+            #else:
+            #    MPago.sandbox_mode(True)
             MPagoToken = MPago.get_access_token()
 
             #mpago = https://api.mercadolibre.com/categories/MLA371926/shipping
